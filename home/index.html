@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>MSU Time Report Web</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <h1>MSU Time Report Web</h1>
+        <form action="/report/generate_report.php" method="POST">
+            <div id="form-body" >
+                <ul>
+                    <li>
+                        <label for="SRT-DATE">Pay Period Start Date:</label>
+                        <label for="END-DATE">Pay Period End Date:</label>
+                    </li>
+                    <li>
+                        <label for="PNUM">Pay Period Number:</label>
+                    </li>
+                    <li>
+                        <label for="ID">MSU ID:</label>
+                        <input type="number" id="ID" name="ID" min="1">
+                    </li>
+                    <li>
+                        <label for="NAME">Name:</label>
+                        <input type="text" id="NAME" name="NAME">
+                    </li>
+                    <li>
+                        <label for="DEPARTMENT" >Department:</label>
+                        <input type="text" id="DEPARTMENT" name="DEPARTMENT">
+                    </li>
+                    <li>
+                        <label for="SCH-HRS">Employee Scheduled Hours Per Week:</label>
+                        <input type="number" id="SCH-HRS" name="SCH-HRS" min="0">
+                    </li>
+                    <li>
+                        <div>
+                            <label for="CT">Recieve Compensatory Time:</label>
+                            <input type="radio" id="yes" name="RCT" value="yes">
+                            <label for="yes">YES</label>
+                            <input type="radio" id="no" name="RCT" value="no">
+                            <label for="no">NO</label>
+                        </div>
+                        
+                    </li>
+                    <li>
+                        <label for="ACT-HOURS">Actual Hours Worked:</label>
+                        <input type="number" id="ACT-HOURS" name="ACT-HOURS" min="0">
+                    </li>
+                    <li>
+                        <label for="COMP-TIME">Compensatory Time Used:</label>
+                        <input type="number" id="COMP-TIME" name="COMP-TIME" min="0">
+                    </li>
+                    <li>
+                        <label for="HOL">Holiday:</label>
+                        <input type="number" id="HOL" name="HOL" min="0">
+                    </li>
+                    <li>
+                        <label for="MED-LEAVE">Medical Leave:</label>
+                        <input type="number" id="MED-LEAVE" name="MED-LEAVE" min="0">
+                    </li>
+                    <li>
+                        <label for="PER-LEAVE">Personal Leave:</label>
+                        <input type="number" id="PER-LEAVE" name="PER-LEAVE" min="0">
+                    </li>
+                    <li>
+                        <label for="JD">Jury Duty:</label>
+                        <input type="number" id="JD" name="JD" min="0">
+                    </li>
+                    <li>
+                        <label for="ML">Military Leave:</label>
+                        <input type="number" id="ML" name="ML" min="0">
+                    </li>
+                    <li>
+                        <label for="LWP">Leave without Pay:</label>
+                        <input type="number" id="LWP" name="LWP" min="0">
+                    </li>
+                    <li>
+                        <label for="ACT-HOURS-ACP">Actual Wrk Hrs During Admin Close Period:</label>
+                        <input type="number" id="ACT-HOURS-ACP" name="ACT-HOURS-ACP" min="0">
+                    </li>
+                    <li>
+                        <label for="AD-CLP">Adminstrative Closing/Leave Period:</label>
+                        <input type="number" id="AD-CLP" name="AD-CLP" min="0">
+                    </li>
+                    <a href="/report/gen_report.html">
+                        <input type="submit" id="sumbit" value="submit">
+                    </a>
+                    
+                </ul>
+            </div>
+        </form>
+    </body>
+</html>
