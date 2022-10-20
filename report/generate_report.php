@@ -8,17 +8,23 @@
             $array = get_array();
             print_array($array);
             $totals = calculate_total($array);
+            $rto = calculate_rto($array);
             $overtime = calculate_overtime($array);
             $comp_time_tr = calculate_tr_comp_record($array);
+            $how_holiday = calculate_how_holiday($array);
             $sst_payroll = calculate_sst_payroll($array);
             $doc = calculate_doc_conv($array,$conversion);
 
             print "Total Hours Submitted: "; 
             print_r($totals);
+            print "<br>RT0 Payroll-Conversion: ";
+            print_r($rto);
             print "<br>Overtime: "; 
             print_r($overtime);
             print "<br>Hours Transferred to Comp. Record: "; 
             print_r($comp_time_tr);
+            print "<br>HOW-Holiday Pay";
+            print_r($how_holiday);
             print "<br>SST-Payroll: ";
             print_r($sst_payroll);
             print "<br>DOC-Payroll Conversion: ";
@@ -47,9 +53,10 @@ function get_array(){
     $jury_duty = $_POST["JD"];
     $mil_duty = $_POST["ML"];
     $leave_wo_pay = $_POST["LWP"];
+    $rto = $_POST["RTO"];
     $act_hours_acp = $_POST["ACT-HOURS-ACP"];
     $ad_close_leave_period = $_POST["AD-CLP"];
-    $array = array($user_id,$name,$department,$sch_hrs,$rcomp_time,$act_hours,$comp_time_used,$holiday,$med_leave,$per_leave,$jury_duty,$mil_duty,$leave_wo_pay,$act_hours_acp,$ad_close_leave_period);
+    $array = array($user_id,$name,$department,$sch_hrs,$rcomp_time,$act_hours,$comp_time_used,$holiday,$med_leave,$per_leave,$jury_duty,$mil_duty,$leave_wo_pay,$rto,$act_hours_acp,$ad_close_leave_period);
     return $array;
 }
 
@@ -72,7 +79,7 @@ function calculate_total($array){
     $jury_duty = $array[10];
     $mil_duty = $array[11];
     $leave_wo_pay = $array[12];
-    $ad_close_leave_period = $array[13];
+    $ad_close_leave_period = $array[15];
 
     $totals = $act_hours + $comp_time_used + $holiday + $med_leave + $per_leave + $jury_duty + $mil_duty + $leave_wo_pay + $ad_close_leave_period;
 
@@ -130,6 +137,33 @@ function calculate_doc_conv($array,$conversion){
     }
     
 
+}
+
+function calculate_rto($array,$conversion){
+
+    $rto = $array[14];
+
+    $temp = $rto/8;
+
+    $cal_rto = $temp*$conversion;
+
+    return $cal_rto;
+
+}
+    
+function calculate_how_holiday($array){
+    $act_hours = $array[5];
+    $holiday = $array[7];
+    $how_holiday;
+
+    if(($act_hours > 0 ) && ($holiday > 0)){
+        $how_holiday = $holiday;
+    }
+    else{
+        $how_holiday = 0;
+    }
+
+    return $how_holiday;
 }
 
 
