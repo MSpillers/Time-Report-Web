@@ -8,7 +8,7 @@
             $array = get_array();
             print_array($array);
             $totals = calculate_total($array);
-            $rto = calculate_rto($array);
+            $rto = calculate_rto($array,$conversion);
             $overtime = calculate_overtime($array);
             $comp_time_tr = calculate_tr_comp_record($array);
             $how_holiday = calculate_how_holiday($array);
@@ -23,7 +23,7 @@
             print_r($overtime);
             print "<br>Hours Transferred to Comp. Record: "; 
             print_r($comp_time_tr);
-            print "<br>HOW-Holiday Pay";
+            print "<br>HOW-Holiday Pay: ";
             print_r($how_holiday);
             print "<br>SST-Payroll: ";
             print_r($sst_payroll);
@@ -44,7 +44,7 @@ function get_array(){
     $name = $_POST["NAME"];
     $department = $_POST["DEPARTMENT"];
     $sch_hrs = $_POST["SCH-HRS"];
-    $rcomp_time = $_POST["RCT"];
+    $rcomp_time = $_POST["RTO"];
     $act_hours = $_POST["ACT-HOURS"];
     $comp_time_used = $_POST["COMP-TIME"];
     $holiday = $_POST["HOL"];
@@ -112,11 +112,20 @@ function calculate_tr_comp_record($array){
 function calculate_sst_payroll($array){
     $sch_hrs = $array[3];
     $lwp = $array[12];
+    $act_hours_wrk = $array[5];
+    $holiday = $array[7];
+    $ad_close_leave_period = $array[15];
+    $comp_time_used = $array[6];
+    $med_leave = $array[8];
+    $per_leave = $array[9];
+    $jury_duty = $array[10];
+    $mil_duty = $array[11];
     $totals = calculate_total($array);
     $overtime = calculate_overtime($array);
+    $how_holiday_pay = calculate_how_holiday($array);
     $sst_payroll = 0;
-    if(($overtime == 0) and (($totals - $sch_hrs) > 0)){
-        $sst_payroll = $totals - $sch_hrs - $lwp;
+    if(($act_hours_wrk-($sch_hrs-($holiday+$ad_close_leave_period+$comp_time_used+$med_leave+$per_leave+$jury_duty+$mil_duty))-($overtime+$how_holiday_pay)) > 0){
+        $sst_payroll = ($act_hours_wrk-($sch_hrs-($holiday+$ad_close_leave_period+$comp_time_used+$med_leave+$per_leave+$jury_duty+$mil_duty))-($overtime+$how_holiday_pay));
     }
 
     return $sst_payroll;
@@ -140,12 +149,14 @@ function calculate_doc_conv($array,$conversion){
 }
 
 function calculate_rto($array,$conversion){
+    $rto = $array[13];
+    $cal_rto = 0;
 
-    $rto = $array[14];
-
-    $temp = $rto/8;
-
-    $cal_rto = $temp*$conversion;
+    if($rto > 0) {
+        $temp = $rto/8;
+        $cal_rto = $temp*$conversion;
+    }
+    
 
     return $cal_rto;
 
@@ -154,9 +165,9 @@ function calculate_rto($array,$conversion){
 function calculate_how_holiday($array){
     $act_hours = $array[5];
     $holiday = $array[7];
-    $how_holiday;
+    $how_holiday = 0;
 
-    if(($act_hours > 0 ) && ($holiday > 0)){
+    if(($act_hours ) && ($holiday > 0)){
         $how_holiday = $holiday;
     }
     else{
