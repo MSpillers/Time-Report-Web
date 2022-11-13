@@ -1,7 +1,12 @@
 
-
-function ttl_calc(actual_hours_wrk,comp_time,holiday_hrs, med_leave, per_leave, jury_duty, military_leave,lwp,actual_wrk_ad_close,ad_close_lp,cf){
-    let total = actual_hours_wrk + comp_time + holiday_hrs + med_leave + per_leave + jury_duty + military_leave;
-
-
+function default_feilds(){
+    let inputs = document.getElementsByTagName('input');
+            for(let i = 0; i < inputs.length;i++){
+                if(inputs[i].type.toLowerCase() == 'number'){
+                    inputs[i].value = 0;
+                }
+            }
 }
+
+
+default_feilds();

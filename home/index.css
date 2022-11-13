@@ -2,29 +2,33 @@ h1{
     text-align: center;
 }
 
-div {
-    text-align: center;
-}
-form{
-    display: table
+#form-top{
+    display: flex;
+    align-content: center;
+    justify-content: center;
 }
 
 ul{
-    
     list-style: none;
-
 }
 
-li{ 
-    display: table-row;
-    
-}
-label{ display: table-cell;
-}
-input{ 
-display: table-cell;
-}
 
 a {
     text-decoration: none;
+}
+
+
+.Weeks{
+    display: flex;
+    flex-flow: row wrap;
+    
+}
+
+
+.Weeks .Day {
+    flex: 1 0 33%;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+
 }
