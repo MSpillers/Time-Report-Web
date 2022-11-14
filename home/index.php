@@ -283,11 +283,91 @@
 
             $payperiod = map_interval_to_days($payperiod_array);
 
-            function pay_period_weeks($pay_period_array){
+            function pay_period_weeks($pay_period){
                 //function divides the payperiod into weeks for the purpose of calulations , specfically for Overtime,HOW-Holiday Pay, HOT-HOLIDAY Pay
+    
+                //first day flag variable
+                $first_day = true;
+                //week loopers
+                //Tracks overall days
+                $i = 0;
+                //Tracks Weeks
+                $j = 0;
+                //Tracks days in sub weeks
+                $k = 0;
+    
+                // const weeks array with 4 sub arrays
+                $week_one = array(0);
+                $week_two = array(0);
+                $week_three = array(0);
+                $week_four = array(0);
+                $weeks = array($week_one,$week_two,$week_three,$week_four);
+    
+                //Split the pay period dates into weeks
+                //echo "Enter Week Split While Loop <br>";
+                while($i < 15){
+                    if($pay_period[0][$i] == "Sunday" && $first_day==true){
+                        
+                        //Test Prints
+                        //echo " First Day is Saturday, Adding to week_one sub array <br>";
+                        //echo "i: $i <br>";
+                        //echo "j: $j <br>";
+                        //echo "k: $k <br>";
+                        
+                        $weeks[$j][$k] = $pay_period[1][$i];
+                        $first_day = false; 
+                        $k++;
+                        $i++;                
+                    }
+                    elseif($pay_period[0][$i] == "Sunday" && $first_day==false){
+                        //echo " Next Day is Saturday, beginning new week <br>";
+                        $k=0;
+                        $j++;
+                        //echo "i: $i <br>";
+                        //echo "j: $j <br>";
+                        //echo "k: $k <br>";
+                        $weeks[$j][$k] = $pay_period[1][$i];
+                        //echo " Date addeed to new week at element $k: ".$pay_period[1][$i]."<br>";
+                        $k++;
+                        $i++;
+                    }
+                    else{
+                        while($pay_period[0][$i] != "Sunday"){
+                            //echo " Day is not Saturday, Adding day to current week: $j <br>";
+                            //echo "i: $i <br>";
+                            //echo "j: $j <br>";
+                            //echo "k: $k <br>";
+                            $first_day = false;
+                            
+                            $weeks[$j][$k] = $pay_period[1][$i];
+                            $i++;
+                            $k++;
+                            
+                            if($i > 14){
+                                //echo "Finished <br>";
+                                break;
+                            }
+                        }
+                    }
+                }
+    
+                
+                //Test print for weeks array 
+                //for($i=0;$i < sizeof($weeks);$i++){
+                    //echo "Week $i Dates: ";
+                    //for($j=0;$j < sizeof($weeks[$i]);$j++){
+                        //echo "".$weeks[$i][$j]."<br>";
+                    //}
+                //}
+                
+    
+                return $weeks;
             }
 
+            $weeks = pay_period_weeks($payperiod);
+
             $_SESSION['payperiod'] = $payperiod;
+            $_SESSION['weeks'] = $weeks;
 
             
             

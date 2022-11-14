@@ -8,7 +8,9 @@
             //retrieve session info
             session_start();
             $payperiod = $_SESSION['payperiod'];
+            $weeks = $_SESSION['weeks'];
             print_array($payperiod);
+            print_array($weeks);
 
             $conversion = 7.879;
             $vars = comp_var();
