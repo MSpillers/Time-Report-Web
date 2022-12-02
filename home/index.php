@@ -1154,7 +1154,7 @@
                 </section>
             </div>
             <a href="/report/gen_report.html">
-                <input type="submit" id="sumbit" value="submit">
+                <input type="submit" id="submit" value="submit">
             </a>
         </form>
         <script src= index.js defer></script>

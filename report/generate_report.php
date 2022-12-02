@@ -44,6 +44,7 @@
             print "<br>How-Holiday-Array";
             print_r($how_holiday_pay_array);
 
+
             //Calculate the Overtime array
             $overtime_pay_array = calculate_overtime_array($sub_cat_array,$weeks);
             print " <br>Overtime-Array";
@@ -59,10 +60,11 @@
             print "<br> SST Payroll Array";
             print_r($sst_pay_array);
 
+            //Form totals for each week
+            // $form_totals = get_weekly_totals_for_form($sub_cat_array,$weeks,$rto_conversions_array,$doc_pay_conversions_array,$overtime_pay_array,$comp_time_tr_array,$how_holiday_pay_array,$sst_pay_array);
+            // print "<br> Form Totals Array by Week";
+            // print_array($form_totals);
 
-
-            
-            
         ?>
     <body>
 <html>
@@ -243,7 +245,7 @@ function get_weekly_totals_per_day($week_size_array,$sub_cat_array,$sub_cat,$day
         for($x=0;$x <$day;$x++){
             $act_val = intval($sub_cat_array[$sub_cat][$x]);
             $day_totals = $day_totals + $act_val;
-            print "<br> Adding Hrs Worked Value {$act_val} for day {$x} to Day Totals";
+            //print "<br> Adding Hrs Worked Value {$act_val} for day {$x} to Day Totals";
         }
         //print "<br> Day-Totals: {$day_totals} ";
         return $day_totals + $week_one_offset;
@@ -256,7 +258,7 @@ function get_weekly_totals_per_day($week_size_array,$sub_cat_array,$sub_cat,$day
         for($x=$week_size_array[0];$x <$day;$x++){ 
             $act_val = intval($sub_cat_array[$sub_cat][$x]);
             $day_totals = $day_totals + intval($sub_cat_array[$sub_cat][$x]);
-            print "<br> Adding Hrs Worked Value {$act_val} for day {$x} to Day Totals";
+            //print "<br> Adding Hrs Worked Value {$act_val} for day {$x} to Day Totals";
         }
         //print "<br> Day-Totals: {$day_totals} ";
         return $day_totals + $week_two_offset;
@@ -264,6 +266,7 @@ function get_weekly_totals_per_day($week_size_array,$sub_cat_array,$sub_cat,$day
     //Day in Week Three Totals
     if($week_num == 2){
         $day_totals = 0;
+        $week_three_offset = intval($sub_cat_array[$sub_cat][$week_size_array[0]+$week_size_array[1]]);
         //Check if days accounted for has already reached 15
         if($x=$week_size_array[0]+$week_size_array[1] == 15){
             return $day_totals;
@@ -273,7 +276,7 @@ function get_weekly_totals_per_day($week_size_array,$sub_cat_array,$sub_cat,$day
             for($x=$week_size_array[0]+$week_size_array[1];$x <$day;$x++){
                 $act_val = intval($sub_cat_array[$sub_cat][$x]);
                 $day_totals = $day_totals + intval($sub_cat_array[$sub_cat][$x]);
-                print "<br> Adding Hrs Worked Value {$act_val} for day {$x} to Week Three Totals";
+                //print "<br> Adding Hrs Worked Value {$act_val} for day {$x} to Week Three Totals";
             }
             //print "<br> Week-Three-Totals: {$day_totals} ";
             return $day_totals;
@@ -379,9 +382,13 @@ function calculate_overtime_array($sub_cat_array,$weeks){
 
     //get weekly totals of act hours worked for each week
     $week_one_act_hrs = get_weekly_totals($week_size_array,$sub_cat_array,1,0);
+    //print "<br> Week One Hours (Overtime): {$week_one_act_hrs}";
     $week_two_act_hrs = get_weekly_totals($week_size_array,$sub_cat_array,1,1);
+    //print "<br> Week Two Hours (Overtime): {$week_two_act_hrs}";
     $week_three_act_hrs = get_weekly_totals($week_size_array,$sub_cat_array,1,2);
+    //print "<br> Week Three Hours (Overtime): {$week_three_act_hrs}";
     $week_four_act_hrs = get_weekly_totals($week_size_array,$sub_cat_array,1,3);
+    //print "<br> Week Four Hours (Overtime): {$week_four_act_hrs}";
 
     //Get weekly totals of hot_holiday_pay
     $week_one_hot_holiday= 0;
@@ -446,26 +453,26 @@ function get_how_holiday_by_week($how_holiday_pay_array,$week_size_array,$week_n
     //Day in Week One Totals
     if($week_num == 0){
         $day_totals= 0;
-        $day_one_offset = intval($how_holiday_pay_array[0]);
+        //$day_one_offset = intval($how_holiday_pay_array[0]);
         for($x=0;$x < $week_size_array[0];$x++){
             $act_val = intval($how_holiday_pay_array[$x]);
             $day_totals = $day_totals + $act_val;
             //print "<br> Adding Act Hrs Worked Value {$act_val} for day {$x} to Day Totals";
         }
         //print "<br> Day-Totals: {$day_totals} ";
-        return $day_totals + $day_one_offset;
+        return $day_totals ;//+ $day_one_offset;
     }
     // Day in Week Two Totals
     if($week_num == 1){
         $day_totals = 0;
-        $day_five_offset = intval($how_holiday_pay_array[4]);
+        //$day_five_offset = intval($how_holiday_pay_array[4]);
         for($x=$week_size_array[0];$x <$week_size_array[0] + $week_size_array[1] ;$x++){ 
             $act_val = intval($how_holiday_pay_array[$x]);
             $day_totals = $day_totals + intval($how_holiday_pay_array[$x]);
             //print "<br> Adding Act Hrs Worked Value {$act_val} for day {$x} to Day Totals";
         }
         //print "<br> Day-Totals: {$day_totals} ";
-        return $day_totals + $day_five_offset;
+        return $day_totals;// + $day_five_offset;
     }
     //Day in Week Three Totals
     if($week_num == 2){
@@ -552,6 +559,47 @@ function calculate_sst_payroll_weekly_array($sub_cat_array,$weeks,$user_info_arr
         }
     }
     return $sst_values_array;
+}
+
+function get_weekly_totals_for_form($sub_cat_array,$weeks,$doc_pay_conversions_array,$rto_conversions_array,$overtime_pay_array,$comp_time_tr_array,$how_holiday_pay_array,$sst_pay_array){
+    //Get the Week Size
+    $week_size_array = get_size_of_sub_week_arrays($weeks);
+    //array to hold all submitted information and calculated information
+    $week_one_totals = array();
+    $week_two_totals = array();
+    $week_three_totals = array();
+    $week_four_totals = array();
+    $form_totals = array($week_one_totals,$week_two_totals,$week_three_totals,$week_four_totals);
+
+    //Loop, gathering the totals for each week
+    for($x=0; $x < sizeof($form_totals);$x++){
+        //Tweleve user submitted fields
+        $act_hrs_wrk = get_weekly_totals($week_size_array,$sub_cat_array,1,$x);
+        $comp_time_used = get_weekly_totals($week_size_array,$sub_cat_array,2,$x);
+        $holiday_hrs = get_weekly_totals($week_size_array,$sub_cat_array,3,$x);
+        $med_hrs = get_weekly_totals($week_size_array,$sub_cat_array,4,$x);
+        $per_hrs = get_weekly_totals($week_size_array,$sub_cat_array,5,$x);
+        $jury_hrs = get_weekly_totals($week_size_array,$sub_cat_array,6,$x);
+        $mil_hrs = get_weekly_totals($week_size_array,$sub_cat_array,7,$x);
+        $leave_hrs = get_weekly_totals($week_size_array,$sub_cat_array,8,$x);
+        $act_hrs_acp_hrs = get_weekly_totals($week_size_array,$sub_cat_array,9,$x);
+        $admin_cl_lp_hrs = get_weekly_totals($week_size_array,$sub_cat_array,10,$x);
+        $rto_hrs = get_weekly_totals($week_size_array,$sub_cat_array,0,$x);
+
+        //Calculated feilds - Doc Pay, Rto Coversions, Overtime, Comptime Transferred,How Holiday,SST
+        $doc_payroll_conversion = $doc_pay_conversions_array[$x];
+        $rto_payroll_conversion = $rto_conversions_array[$x];
+        $overtime_hrs = $overtime_pay_array[$x];
+        $comp_time_tr = $comp_time_tr_array[$x];
+        $how_holiday_hrs = get_how_holiday_by_week($how_holiday_pay_array,$week_size_array,$x);
+        $sst_hrs = $sst_pay_array[$x];
+
+        //combine into the array
+        $form_totals[$x] = [$act_hrs_wrk,$comp_time_used,$holiday_hrs,$med_hrs,$per_hrs,$jury_hrs,$mil_hrs,$leave_hrs,$act_hrs_acp_hrs,
+        $admin_cl_lp_hrs,$rto_hrs,$doc_payroll_conversion,$rto_payroll_conversion,$overtime_hrs,$comp_time_tr,$how_holiday_hrs,$sst_hrs];
+        
+    }
+    return $form_totals; 
 }
 
 
