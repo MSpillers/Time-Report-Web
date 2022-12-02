@@ -75,7 +75,7 @@
                 //March 
                 elseif($monthkey == 3){
                     return 4;
-                }
+                } 
                 //April
                 elseif($monthkey == 4){
                     return 0;
@@ -404,6 +404,9 @@
                     <li>
                         <label for="SCH-HRS">Employee Scheduled Hours Per Week:</label>
                         <input type="number" id="SCH-HRS" name="SCH-HRS" min="0">
+                    </li>
+                    <li>
+                        <label for="RCV-COMP-TIME">Recieve Compensatory Time</label>
                     </li>
                 </ul>
             </div>
