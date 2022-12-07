@@ -8,7 +8,7 @@
 
         //-> To External Helper Class
         //Connect to the database
-        $conn_string = "host=localhost port=5432 dbname=timereportweb user=postgres password=Anth3im182";
+        $conn_string = "";
         $dbconn = pg_connect($conn_string);
 
         //Get the all pay periods
