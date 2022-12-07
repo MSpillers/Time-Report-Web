@@ -1,0 +1,33 @@
+Outstanding Tasks
+- *Verification of existing functions
+- *HOT-Holiday Pay and Administrative Closing/Leave Period
+- Administration Center ( *Set active payperiod, *update conversions for payperiod, *query submitted pay information)
+- UI Redesign
+
+
+
+Present Functionalities at the End:
+*Working Form
+*Submission of Pay Period Info
+Exportation 
+*Adminstration Capabilites
+
+Functionality Not Present:
+- Manager Approval
+- DUO Two Factor Authentication 
+
+
+
+Questions:
+*How to trigger HOT-Holiday Pay
+
+
+Offcial Handoff Dec 7th  - Final Presentation
+
+4:00pm on Dec7tth 
+
+
+up to 40 , over for holiday 
+
+
+
